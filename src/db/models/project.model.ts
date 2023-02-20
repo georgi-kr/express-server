@@ -1,54 +1,39 @@
 import {
+  Table,
   Model,
-  InferAttributes,
-  InferCreationAttributes,
-  CreationOptional,
+  Column,
+  DataType,
+  BelongsTo,
   ForeignKey,
-  NonAttribute,
-  DataTypes,
-} from 'sequelize';
-import { sequelize } from '../index';
+} from 'sequelize-typescript';
 import { User } from './user.model.';
 
-export class Project extends Model<
-  InferAttributes<Project>,
-  InferCreationAttributes<Project>
-> {
-  // id can be undefined during creation when using `autoIncrement`
-  declare id: CreationOptional<number>;
+@Table({
+  tableName: 'projects',
+})
+export class Project extends Model {
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  name!: string;
 
-  // foreign keys are automatically added by associations methods (like Project.belongsTo)
-  // by branding them using the `ForeignKey` type, `Project.init` will know it does not need to
-  // display an error if ownerId is missing.
-  declare userId: ForeignKey<User['id']>;
-  declare name: string;
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  description!: string;
 
-  // `user` is an eagerly-loaded association.
-  // We tag it as `NonAttribute`
-  declare user?: NonAttribute<User>;
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  data!: string;
 
-  // createdAt can be undefined during creation
-  declare createdAt: CreationOptional<Date>;
-  // updatedAt can be undefined during creation
-  declare updatedAt: CreationOptional<Date>;
+  @ForeignKey(() => User)
+  @Column
+  ownerId!: number;
+
+  @BelongsTo(() => User, 'ownerId')
+  Owner!: User;
 }
-
-Project.init(
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    name: {
-      type: new DataTypes.STRING(128),
-      allowNull: false,
-    },
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
-  },
-  {
-    sequelize,
-    tableName: 'projects',
-  },
-);

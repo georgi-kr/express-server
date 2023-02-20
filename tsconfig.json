@@ -7,6 +7,8 @@
     "paths": {
       "*": ["./node_modules/*"]
     },
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "sourceMap": true,
     "outDir": "dist",
     "esModuleInterop": true,
