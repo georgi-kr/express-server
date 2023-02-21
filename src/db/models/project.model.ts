@@ -28,6 +28,12 @@ export class Project extends Model {
     type: DataType.STRING,
     allowNull: true,
   })
+  parameters!: any | Record<string, any>;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
   data!: string;
 
   @ForeignKey(() => User)

@@ -1,6 +1,15 @@
 // @/models.ts
-import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript';
+import {
+  Table,
+  Model,
+  Column,
+  DataType,
+  HasMany,
+  ForeignKey,
+} from 'sequelize-typescript';
+import { Group } from './group.model';
 import { Project } from './project.model';
+import { Role } from './role.model';
 
 @Table({
   tableName: 'users',
@@ -23,6 +32,26 @@ export class User extends Model {
     allowNull: false,
   })
   email!: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  settings!: any | Record<string, any>;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  refreshToken!: string[] | [];
+
+  @ForeignKey(() => Group)
+  @Column
+  groupId!: number;
+
+  @ForeignKey(() => Role)
+  @Column
+  roleId!: number;
 
   @HasMany(() => Project, 'projectId')
   projects!: Project[] | [];
