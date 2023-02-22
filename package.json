@@ -11,7 +11,8 @@
     "compile": "tsc && node dist/index.js",
     "dev": "nodemon s -e ts  --exec \"yarn run compile\"",
     "lint": "prettier --check {src,test}/**/*.ts && eslint {src,test}/**/*.ts",
-    "test": "jest test --runInBand"
+    "test": "jest test --runInBand",
+    "seed": "npx sequelize-cli db:seed:all"
   },
   "jest": {
     "preset": "./jest.json"
@@ -40,6 +41,7 @@
     "jest": "^29.3.1",
     "nodemon": "^2.0.20",
     "prettier": "^2.5.1",
+    "sequelize-cli": "^6.6.0",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
     "tsc-watch": "^5.0.3",

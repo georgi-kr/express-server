@@ -1,5 +1,6 @@
 // @/models.ts
-import { Table, Model, Column, DataType } from 'sequelize-typescript';
+import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript';
+import { SharedProject } from './shared-projects';
 
 @Table({
   tableName: 'permissions',
@@ -10,5 +11,8 @@ export class ProjectPermission extends Model {
     type: DataType.STRING,
     allowNull: false,
   })
-  name!: string;
+  name: string;
+
+  @HasMany(() => SharedProject, 'projectPermissionId')
+  sharedProjects: SharedProject[];
 }

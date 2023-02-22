@@ -6,6 +6,7 @@ import {
   ForeignKey,
 } from 'sequelize-typescript';
 import { ProjectPermission } from './permission.model';
+import { Project } from './project.model';
 import { User } from './user.model.';
 
 @Table({
@@ -13,14 +14,7 @@ import { User } from './user.model.';
   deletedAt: 'deleted',
 })
 export class SharedProject extends Model {
-  @ForeignKey(() => User)
-  @Column
-  ownerId!: number;
-
-  @BelongsTo(() => User, 'ownerId')
-  Owner!: User;
-
-  @ForeignKey(() => User)
+  @ForeignKey(() => Project)
   @Column
   projectId!: number;
 
@@ -32,12 +26,12 @@ export class SharedProject extends Model {
   userId!: number;
 
   @BelongsTo(() => User, 'userId')
-  User!: User;
+  user!: User;
 
   @ForeignKey(() => ProjectPermission)
   @Column
   projectPermissionId!: number;
 
   @BelongsTo(() => ProjectPermission, 'projectPermissionId')
-  ProjectPermission!: ProjectPermission;
+  projectPermission!: ProjectPermission;
 }

@@ -1,58 +1,67 @@
-// @/models.ts
 import {
   Table,
   Model,
   Column,
   DataType,
-  HasMany,
   ForeignKey,
+  BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
 import { Group } from './group.model';
 import { Project } from './project.model';
 import { Role } from './role.model';
+import { SharedProject } from './shared-projects';
 
 @Table({
   tableName: 'users',
+  paranoid: true,
 })
 export class User extends Model {
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  name!: string;
+  name: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  password!: string;
+  password: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  email!: string;
+  email: string;
+
+  @Column({
+    type: DataType.JSONB,
+  })
+  settings: object;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
   })
-  settings!: any | Record<string, any>;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  refreshToken!: string[] | [];
+  refreshToken: string[];
 
   @ForeignKey(() => Group)
   @Column
-  groupId!: number;
+  groupId: number;
+
+  @BelongsTo(() => Group, 'groupId')
+  group: Group;
 
   @ForeignKey(() => Role)
   @Column
-  roleId!: number;
+  roleId: number;
 
-  @HasMany(() => Project, 'projectId')
-  projects!: Project[] | [];
+  @BelongsTo(() => Role, 'roleId')
+  role: Role;
+
+  @HasMany(() => Project, 'ownerId')
+  projects: Project[];
+
+  @HasMany(() => SharedProject, 'userId')
+  sharedProjects: SharedProject[];
 }

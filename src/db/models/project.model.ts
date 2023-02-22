@@ -5,41 +5,44 @@ import {
   DataType,
   BelongsTo,
   ForeignKey,
+  HasMany,
 } from 'sequelize-typescript';
+import { SharedProject } from './shared-projects';
 import { User } from './user.model.';
 
 @Table({
   tableName: 'projects',
+  paranoid: true,
 })
 export class Project extends Model {
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  name!: string;
+  name: string;
 
   @Column({
     type: DataType.STRING,
-    allowNull: true,
   })
-  description!: string;
+  description: string;
 
   @Column({
-    type: DataType.STRING,
-    allowNull: true,
+    type: DataType.JSONB,
   })
-  parameters!: any | Record<string, any>;
+  parameters: object;
 
   @Column({
-    type: DataType.STRING,
-    allowNull: true,
+    type: DataType.JSONB,
   })
-  data!: string;
+  data: object;
 
   @ForeignKey(() => User)
   @Column
   ownerId!: number;
 
   @BelongsTo(() => User, 'ownerId')
-  Owner!: User;
+  user!: User;
+
+  @HasMany(() => SharedProject, 'projectId')
+  sharedProjects: SharedProject[];
 }

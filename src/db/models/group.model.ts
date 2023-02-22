@@ -1,5 +1,6 @@
 // @/models.ts
-import { Table, Model, Column, DataType } from 'sequelize-typescript';
+import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript';
+import { User } from './user.model.';
 
 @Table({
   tableName: 'groups',
@@ -12,8 +13,11 @@ export class Group extends Model {
   name!: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.JSONB,
     allowNull: false,
   })
-  settings!: string;
+  settings: object;
+
+  @HasMany(() => User, 'userId')
+  users: User[];
 }
