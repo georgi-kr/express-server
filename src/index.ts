@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { port } from './env';
 import connection from './db/connection';
-import { Sequelize } from 'sequelize';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
@@ -12,18 +11,17 @@ const app: Express = express();
 app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');
 });
-// ...
 
-const initDatabase = async (): Promise<Sequelize> => {
+const initDatabase = async (): Promise<void> => {
   try {
-    return await connection.sync({ force: true });
+    await connection.sync({ force: true });
   } catch (error) {
     console.error(error);
     process.exit(1);
   }
 };
 
-const initServer = async (): Promise<void> => {
+const initServer = async (): void => {
   app.listen(port, () => {
     console.log('Server started on port 3000');
   });
