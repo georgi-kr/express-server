@@ -15,21 +15,27 @@ import { User } from './user.model.';
 })
 export class SharedProject extends Model {
   @ForeignKey(() => Project)
-  @Column
+  @Column({
+    allowNull: false,
+  })
   projectId!: number;
 
   @BelongsTo(() => User, 'projectId')
   Project!: User;
 
   @ForeignKey(() => User)
-  @Column
+  @Column({
+    allowNull: false,
+  })
   userId!: number;
 
   @BelongsTo(() => User, 'userId')
   user!: User;
 
   @ForeignKey(() => ProjectPermission)
-  @Column
+  @Column({
+    allowNull: false,
+  })
   projectPermissionId!: number;
 
   @BelongsTo(() => ProjectPermission, 'projectPermissionId')

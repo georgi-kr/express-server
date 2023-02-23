@@ -5,12 +5,9 @@ import {
   DataType,
   ForeignKey,
   BelongsTo,
-  HasMany,
 } from 'sequelize-typescript';
 import { Group } from './group.model';
-import { Project } from './project.model';
 import { Role } from './role.model';
-import { SharedProject } from './shared-projects';
 
 @Table({
   tableName: 'users',
@@ -46,22 +43,20 @@ export class User extends Model {
   refreshToken: string[];
 
   @ForeignKey(() => Group)
-  @Column
+  @Column({
+    allowNull: false,
+  })
   groupId: number;
 
   @BelongsTo(() => Group, 'groupId')
   group: Group;
 
   @ForeignKey(() => Role)
-  @Column
+  @Column({
+    allowNull: false,
+  })
   roleId: number;
 
   @BelongsTo(() => Role, 'roleId')
   role: Role;
-
-  @HasMany(() => Project, 'ownerId')
-  projects: Project[];
-
-  @HasMany(() => SharedProject, 'userId')
-  sharedProjects: SharedProject[];
 }

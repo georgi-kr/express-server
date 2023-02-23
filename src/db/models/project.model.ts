@@ -5,9 +5,7 @@ import {
   DataType,
   BelongsTo,
   ForeignKey,
-  HasMany,
 } from 'sequelize-typescript';
-import { SharedProject } from './shared-projects';
 import { User } from './user.model.';
 
 @Table({
@@ -37,12 +35,11 @@ export class Project extends Model {
   data: object;
 
   @ForeignKey(() => User)
-  @Column
+  @Column({
+    allowNull: false,
+  })
   ownerId!: number;
 
   @BelongsTo(() => User, 'ownerId')
   user!: User;
-
-  @HasMany(() => SharedProject, 'projectId')
-  sharedProjects: SharedProject[];
 }
