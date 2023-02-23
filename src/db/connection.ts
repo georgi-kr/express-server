@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
-import { db_host, db_name, db_password, db_user } from '../config';
+import { db_host, db_name, db_password, db_user } from '../env';
 import { Group } from './models/group.model';
 import { ProjectPermission } from './models/permission.model';
 import { Project } from './models/project.model';
@@ -14,7 +14,7 @@ const connection = new Sequelize({
   password: db_password,
   database: db_name,
   logging: false, // allow logging later
-  models: [User, Project, Role, SharedProject, Group, ProjectPermission], // include models
+  models: [User, Project, Role, SharedProject, Group, ProjectPermission],
 });
 
 export default connection;

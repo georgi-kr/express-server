@@ -1,8 +1,9 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
-import { port } from './config';
+import { port } from './env';
 import connection from './db/connection';
+import { Sequelize } from 'sequelize';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
@@ -13,17 +14,23 @@ app.get('/', (req: Request, res: Response) => {
 });
 // ...
 
-const start = async (): Promise<void> => {
+const initDatabase = async (): Promise<Sequelize> => {
   try {
-    await connection.sync({ force: true });
-
-    app.listen(port, () => {
-      console.log('Server started on port 3000');
-    });
+    return await connection.sync({ force: true });
   } catch (error) {
     console.error(error);
     process.exit(1);
   }
 };
 
-start();
+const initServer = async (): Promise<void> => {
+  app.listen(port, () => {
+    console.log('Server started on port 3000');
+  });
+};
+
+const init = (services: Array<() => void>): void => {
+  services.forEach((service) => service());
+};
+
+init([initDatabase, initServer]);

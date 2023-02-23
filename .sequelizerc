@@ -1,6 +1,10 @@
 const path = require('path')
 
-module.exports = {
+// declare paths from the build folder 'dist'
+const config = {
   config: path.resolve('./dist/db/config/config.js'),
   'seeders-path': path.resolve('./dist/db/seeders'),
 }
+
+module.exports = config
+
