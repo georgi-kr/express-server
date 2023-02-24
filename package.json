@@ -12,7 +12,8 @@
     "dev": "nodemon s -e ts  --exec \"yarn run compile\"",
     "lint": "prettier --check {src,test}/**/*.ts && eslint {src,test}/**/*.ts",
     "test": "jest test --runInBand",
-    "seed": "npx sequelize-cli db:seed:all"
+    "seed": "npx sequelize-cli db:seed:all",
+    "undo-seed": "npx sequelize-cli db:seed:undo"
   },
   "jest": {
     "preset": "./jest.json"
